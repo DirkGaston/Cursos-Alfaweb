@@ -97,16 +97,13 @@ export default {
     loginUser() {
       signInWithEmailAndPassword(auth, this.user.email, this.user.password)
         .then((userCredential) => {
-          console.log(userCredential);
           this.$router.push({ name: "home" });
         })
         .catch((e) => {
-          console.log(e);
           this.dialog = true;
         });
     },
     reset() {
-      console.log("reset...");
       this.$refs.formRegister.reset();
     },
   },

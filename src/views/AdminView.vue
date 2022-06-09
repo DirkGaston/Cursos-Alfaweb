@@ -9,7 +9,7 @@
       </div>
     </v-col>
     <v-col cols="12">
-      <v-card>
+      <v-card class="pb-6">
         <template>
           <v-data-table :headers="headers" :items="courses" class="elevation-1">
             <template v-slot:[`item.price`]="{ item }">
@@ -160,74 +160,62 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <div
-        class="mt-10 mb-3 pa-3 d-flex align-center"
-        style="outline: 2px solid #a63eb8; border-radius: 5px; color: #a63eb8"
-      >
-        <v-icon class="me-5" style="color: #a63eb8">mdi-account-group</v-icon>
-        <span
-          >Cantidad total de alumnos permitidos:
-          <strong>{{ totalAvailability }}</strong> alumnos</span
-        >
-      </div>
-      <div
-        class="mt-5 mb-3 pa-3 d-flex align-center"
-        style="outline: 2px solid #3da1f1; border-radius: 5px; color: #3da1f1"
-      >
-        <v-icon class="me-5" style="color: #3da1f1"
-          >mdi-account-multiple-check</v-icon
-        >
-        <span
-          >Cantidad total de alumnos inscritos:
-          <strong>{{ totalStudents }}</strong> alumnos</span
-        >
-      </div>
-      <div
-        class="mt-5 mb-3 pa-3 d-flex align-center"
-        style="outline: 2px solid #f34c3f; border-radius: 5px; color: #f34c3f"
-      >
-        <v-icon class="me-5" style="color: #f34c3f">mdi-account-clock</v-icon>
-        <span
-          >Cantidad total de cupos restantes:
-          <strong>{{ totalLeftover }}</strong> alumnos</span
-        >
-      </div>
-      <div
-        class="mt-5 mb-3 pa-3 d-flex align-center"
-        style="outline: 2px solid #e8296a; border-radius: 5px; color: #e8296a"
-      >
-        <v-icon class="me-5" style="color: #e8296a">mdi-block-helper</v-icon>
-        <span
-          >Cantidad total de cursos terminados:
-          <strong>{{ completedCoursesCount }}</strong> cursos</span
-        >
-      </div>
-      <div
-        class="mt-5 mb-3 pa-3 d-flex align-center"
-        style="outline: 2px solid #7f5d50; border-radius: 5px; color: #7f5d50"
-      >
-        <v-icon class="me-5" style="color: #7f5d50">mdi-bell-ring</v-icon>
-        <span
-          >Cantidad total de cursos activos:
-          <strong>{{ filteredUncompletedCourses.length }}</strong> cursos</span
-        >
-      </div>
-      <div
-        class="mt-5 mb-3 pa-3 d-flex align-center"
-        style="outline: 2px solid #fd5f2d; border-radius: 5px; color: #fd5f2d"
-      >
-        <v-icon class="me-5" style="color: #fd5f2d">mdi-bell-ring</v-icon>
-        <span
-          >Cantidad total de cursos:
-          <strong>{{ totalCourses }}</strong> alumnos</span
-        >
-      </div>
+
+      <Computations
+        icon="mdi-account-group"
+        :comp="totalAvailability"
+        text="Cantidad total de alumnos permitidos"
+        outlineColor="#a63eb8"
+        textColor="#a63eb8"
+        iconColor="#a63eb8"
+      />
+      <Computations
+        icon="mdi-account-multiple-check"
+        :comp="totalStudents"
+        text="Cantidad total de alumnos inscritos"
+        outlineColor="#3da1f1"
+        textColor="#3da1f1"
+        iconColor="#3da1f1"
+      />
+      <Computations
+        icon="mdi-account-clock"
+        :comp="totalLeftover"
+        text="Cantidad total de cupos restantes"
+        outlineColor="#f34c3f"
+        textColor="#f34c3f"
+        iconColor="#f34c3f"
+      />
+      <Computations
+        icon="mdi-block-helper"
+        :comp="completedCoursesCount"
+        text="Cantidad total de cursos terminados"
+        outlineColor="#e8296a"
+        textColor="#e8296a"
+        iconColor="#e8296a"
+      />
+      <Computations
+        icon="mdi-bell-ring"
+        :comp="filteredUncompletedCourses.length"
+        text="Cantidad total de cursos activos"
+        outlineColor="#7f5d50"
+        textColor="#7f5d50"
+        iconColor="#7f5d50"
+      />
+      <Computations
+        icon="mdi-bell-ring"
+        :comp="totalCourses"
+        text="Cantidad total de cursos"
+        outlineColor="#fd5f2d"
+        textColor="#fd5f2d"
+        iconColor="#fd5f2d"
+      />
     </v-col>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
+import Computations from "@/components/Computations.vue";
 
 export default {
   data() {
@@ -273,6 +261,9 @@ export default {
       idEdit: "",
     };
   },
+  components: {
+    Computations,
+  },
   methods: {
     ...mapActions([
       "add_course",
@@ -285,7 +276,6 @@ export default {
       this.dialog = false;
     },
     deleteCourse() {
-      console.log(this.idDelete);
       this.delete_course(this.idDelete);
       this.closeDelete();
     },
@@ -293,12 +283,10 @@ export default {
       this.dialog = true;
     },
     triggerDelete(id) {
-      console.log(id);
       this.idDelete = id;
       this.dialogDelete = true;
     },
     triggerUpdate(id) {
-      console.log(id);
       this.idEdit = id;
       this.$router.push({ path: `/edit/${this.idEdit}` });
     },
@@ -355,10 +343,6 @@ export default {
     totalLeftover() {
       return this.totalAvailability - this.totalStudents;
     },
-
-    totalActive() {
-      return;
-    },
     totalCourses() {
       return this.courses.length;
     },
@@ -391,9 +375,3 @@ let today = new Date();
 let date =
   today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 </script>
-
-<style>
-#totalAvailabiliy {
-  outline: 1px solid #a63eb8;
-}
-</style>

@@ -58,8 +58,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  console.log("entraste al beforeEach");
-
   const requireAuth = to.meta.auth;
   const user = await currentUserPromise();
 

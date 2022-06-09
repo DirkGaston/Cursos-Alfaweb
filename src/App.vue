@@ -12,7 +12,7 @@
       >
         {{ user.email }}
       </h5>
-      <v-icon @click="cerrarSesion">mdi-logout</v-icon>
+      <v-icon v-if="user !== null" @click="cerrarSesion">mdi-logout</v-icon>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>

@@ -18,12 +18,12 @@ export default new Vuex.Store({
     courses: [],
   },
   getters: {
-    completedCourses (state) {
-      return state.courses.filter(course => course.completed)
+    completedCourses(state) {
+      return state.courses.filter((course) => course.completed);
     },
-    completedCoursesCount (state, getters) {
-      return getters.completedCourses.length
-    }
+    completedCoursesCount(state, getters) {
+      return getters.completedCourses.length;
+    },
   },
   mutations: {
     GET_COURSES(state, payload) {
@@ -44,9 +44,7 @@ export default new Vuex.Store({
           });
           commit("GET_COURSES", courses);
         });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
 
     async add_course({ commit }, course) {
@@ -63,17 +61,13 @@ export default new Vuex.Store({
           code: course.code,
           students: course.students,
         });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     async delete_course({ commit }, id) {
       try {
         const docRef = doc(db, "courses", id);
         await deleteDoc(docRef);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     async update_course({ commit }, course) {
       try {
@@ -90,9 +84,7 @@ export default new Vuex.Store({
           code: course.code,
           students: course.students,
         });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
   },
   modules: {},

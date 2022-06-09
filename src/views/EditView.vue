@@ -138,7 +138,6 @@ export default {
   methods: {
     ...mapActions(["update_course", "get_courses"]),
     updateCourse() {
-      console.log(this.course);
       this.update_course({ ...this.course });
       this.course = {};
       this.back()
